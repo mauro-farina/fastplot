@@ -44,8 +44,8 @@ def plot(data, path, mode = 'line',
          xlim = None, ylim = None, xlabel = None, ylabel = None, xticks = None, yticks = None, xticks_rotate = None, yticks_rotate = None, xticks_fontsize='medium', yticks_fontsize='medium', 
          xtick_direction = 'in', xtick_width = 1, xtick_length = 3, ytick_direction = 'in', ytick_width = 1, ytick_length = 3, 
          legend = False, legend_loc = 'best', legend_ncol = 1, legend_fontsize = 'medium', legend_border = False, legend_frameon = True, legend_fancybox = False, legend_alpha=1.0, legend_args = {},
-         linewidth = 1, boxplot_sym='', boxplot_whis=[5,95], timeseries_format='%Y/%m/%d', bars_width=0.6,
-         boxplot_numerousness = False, boxplot_numerousness_fontsize = 'x-small',
+         linewidth = 1, boxplot_whis=[5,95], timeseries_format='%Y/%m/%d', bars_width=0.6,
+         boxplot_numerousness = False, boxplot_numerousness_fontsize = 'x-small', boxplot_fliersize=0,
          boxplot_palette=sns.color_palette(), boxplot_empty=False, boxplot_numerousness_rotate=None,
          callback = None, timeseries_stacked_right_legend_order=True, CDF_complementary=False, vlines=None, hlines=None, vlines_style={}, hlines_style={}):
 
@@ -155,8 +155,8 @@ def plot(data, path, mode = 'line',
         #plt.boxplot(samples, labels=labels, sym=boxplot_sym, whis=boxplot_whis, **plot_args)
         
         #order = sorted(scenario_best["asn"].unique())
-        sns.boxplot(data=samples, whis=boxplot_whis, sym=boxplot_sym, ax=plt.gca(),
-                    palette= boxplot_palette, **plot_args)
+        sns.boxplot(data=samples, whis=boxplot_whis, ax=plt.gca(),
+                    palette= boxplot_palette, fliersize=boxplot_fliersize, **plot_args)
         plt.gca().set_xticklabels(labels)
         
         if boxplot_numerousness:
@@ -185,7 +185,7 @@ def plot(data, path, mode = 'line',
                     new_data.append( {"x":i, "y":e, "hue":c })
         new_data = pd.DataFrame(new_data)
         p = sns.boxplot(x="x", y="y", hue="hue", data=new_data, whis=boxplot_whis, order=data.index,
-                    sym=boxplot_sym, ax=plt.gca(), palette= boxplot_palette, **plot_args)
+                    ax=plt.gca(), palette= boxplot_palette, fliersize=boxplot_fliersize, **plot_args)
         p.legend().remove()
         plt.xlabel("")
         plt.gca().set_xticklabels(data.index)

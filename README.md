@@ -160,7 +160,7 @@ Arguments of the `plot` function are divided in many categories. Only `core` are
 **Specific**
 This arguments are specific for some `modes`.
 * `linewidth`: linewidth when lines are used. Default: `1`
-* `boxplot_sym`: symbol for outliers in boxplots. Default `''`
+* `boxplot_fliersize`: size of the markers for outliers in boxplots. Default `0`
 * `boxplot_whis`: whisker spec for boxplot.  Default `[5,95]`
 * `boxplot_numerousness`: plot the number of samples on the top-x axis.  Default `False`
 * `boxplot_numerousness_fontsize`: size of sample groups labels.  Default `x-small`
