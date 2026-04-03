@@ -10,14 +10,13 @@ import seaborn as sns
 import numpy as np
 import pandas as pd
 import re
-from statsmodels.distributions.empirical_distribution import ECDF
 
 # Register Pandas Converters
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 
 FIGSIZE=(4,2.25)
-NUM_BIN_CDF=1000
+
 CYCLER_LINES=(cycler('color', ['r', 'b', 'g', 'purple', 'c']) +
               cycler('linestyle', ['-', '--', '-.', ':', (0, (3, 1, 1, 1)) ]))
 CYCLER_LINESPOINTS=(cycler('color', ['r', 'b', 'g', 'purple', 'c']) +
@@ -96,58 +95,17 @@ def plot(data, path, mode = 'line',
         plt.plot(data[0], data[1], markeredgewidth=0, linewidth = linewidth, **plot_args) 
 
     elif mode == 'CDF':
-        s = data
-        e = ECDF(s)
-        if xscale == 'log':
-            x = np.logspace(np.log10(min(s)), np.log10(max(s)), NUM_BIN_CDF )
-            if CDF_complementary:
-                y = 1-e(x)
-            else:
-                y = e(x)
-        else:
-            x = np.linspace(min(s), max(s), NUM_BIN_CDF )  
-            if CDF_complementary:
-                y = 1-e(x)
-                x = np.concatenate( (np.array([min(s)]), x) )
-                y = np.concatenate( (np.array([1]), y) )
-            else:
-                y = e(x)
-                x = np.concatenate( (np.array([min(s)]), x) )
-                y = np.concatenate( (np.array([0]), y) )
+        plt.ecdf(data, complementary=CDF_complementary, linewidth=linewidth, **plot_args)
 
-        plt.plot(x,y, linewidth = linewidth, **plot_args)
         if ylabel is None:
             ylabel = 'CCDF' if CDF_complementary else "CDF"
-        if ylim is None:
-            ylim = (0,1)
 
     elif mode == 'CDF_multi':
-        for s_name, s in data :
-            e = ECDF(s)
-            if xscale == 'log':
-                x = np.logspace(np.log10(min(s)), np.log10(max(s)), NUM_BIN_CDF )
-                if CDF_complementary:
-                    y = 1-e(x)
-                else:
-                    y = e(x)
-            else:
-                x = np.linspace(min(s), max(s), NUM_BIN_CDF )  
-
-                if CDF_complementary:
-                    y = 1-e(x)
-                    x = np.concatenate( (np.array([min(s)]), x) )
-                    y = np.concatenate( (np.array([1]), y) )
-                else:
-                    y = e(x)
-                    x = np.concatenate( (np.array([min(s)]), x) )
-                    y = np.concatenate( (np.array([0]), y) )
-
-            plt.plot(x,y, label=s_name, linewidth = linewidth, **plot_args)
+        for s_name, s in data:
+            plt.ecdf(s, label=s_name, complementary=CDF_complementary, linewidth=linewidth, **plot_args)
 
         if ylabel is None:
             ylabel = 'CCDF' if CDF_complementary else "CDF"
-        if ylim is None:
-            ylim = (0,1)
 
     elif mode == 'boxplot':
         labels = [e[0] for e in data]
