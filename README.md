@@ -12,12 +12,17 @@ For information about this Readme file and this tool please write to
 <!---
 Done with https://github.com/ekalinin/github-markdown-toc )
 -->
-   * [Installation](#installation)
-   * [Usage](#usage)
-   * [Modes](#modes)
-   * [Arguments](#arguments)
-   * [Cyclers](#cyclers)
-   * [Examples](#examples)
+- [FastPlot](#fastplot)
+  - [Table of Content](#table-of-content)
+  - [Installation](#installation)
+  - [Usage](#usage)
+      - [Usage with Jupyter Notebook](#usage-with-jupyter-notebook)
+      - [Basic arguments](#basic-arguments)
+  - [Modes](#modes)
+    - [Lorenz curve and Gini Index](#lorenz-curve-and-gini-index)
+  - [Arguments](#arguments)
+  - [Cyclers](#cyclers)
+  - [Examples](#examples)
 
 ## Installation
 
@@ -26,7 +31,7 @@ Simply clone this repo or use:
 pip3 install fastplot
 ```
 
-Dependencies are: `matplotlib numpy pandas statsmodels`. FastPlot requires updated versions of such libraries, so, in case of error try first to upgrade them.
+Dependencies are: `matplotlib numpy pandas seaborn`. FastPlot requires updated versions of such libraries, so, in case of error try first to upgrade them.
 For `serif` fonts you need `Times New Roman`, that, on Ubuntu, can be installed with:
 ```
 sudo apt-get install msttcorefonts
@@ -74,7 +79,7 @@ The most important arguments are:
 The modes are the type of plots fastplot allows to use. Some are simple (just a line), other are more advanced (bars, etc.).
 * `line`: plot a simple line. `data` must be a two-sized tuple of lists, for x and y. E.g., ([x1,x2,x3],[y1,y2,y3])
 * `line_multi`: plot multiple lines. Data must have the form [ (line1, ([x1,x2], [y1,y2])), (line2, ([x1,x2], [y1,y2]) ) ]. The names `line1` and `line2` are put in the legend.
-* `CDF`: plot a CDF given the samples. `data` must be a list of scalars. Note: if your CDF is too coarse grained, you can increase the resolution increasing `fastplot.NUM_BIN_CDF`.
+* `CDF`: plot a CDF given the samples. `data` must be a list of scalars.
 * `CDF_multi`: plot many CDFs given the samples. `data` must be a list of two-sized tuples like (name, [samples]). `name` is used in the legend.
 * `boxplot`: plot a boxplot given the samples. `data` must be a list of two-sized tuples like (name, [samples]). `name` is used in the xticks labels.
 * `boxplot_multi`: plot a boxplot given the samples, clustered in groups. `data` a pandas dataframe, where each cell is a list. A groups are defined by each row, elements of each groups by columns.
